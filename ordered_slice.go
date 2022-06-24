@@ -91,9 +91,9 @@ func Index[T constraints.Ordered](s []T, item T) int {
 	return -1
 }
 
-// RIndex returns the index of the last instance of item in s, or -1 if item is
+// LastIndex returns the index of the last instance of item in s, or -1 if item is
 // not present in s.
-func RIndex[T constraints.Ordered](s []T, item T) int {
+func LastIndex[T constraints.Ordered](s []T, item T) int {
 	for i := len(s) - 1; i >= 0; i-- {
 		if s[i] == item {
 			return i
@@ -118,9 +118,9 @@ func Replace[T constraints.Ordered](s []T, old, new T, n int) {
 	}
 }
 
-// RReplace replaces the last n instances of old, in s, with new. If n is -1,
+// ReplaceLast replaces the last n instances of old, in s, with new. If n is -1,
 // then there is no limit on the number of replacements.
-func RReplace[T constraints.Ordered](s []T, old, new T, n int) {
+func ReplaceLast[T constraints.Ordered](s []T, old, new T, n int) {
 	if n != 0 && old != new {
 		for i := len(s) - 1; i >= 0; i-- {
 			if s[i] == old {
@@ -142,12 +142,12 @@ func Sort[T constraints.Ordered](s []T) {
 	sort.Sort(srt)
 }
 
-// RSort sorts s in-place in descending order.
-func RSort[T constraints.Ordered](s []T) {
-	rsrt := rsorter[T]{
+// SortReverse sorts s in-place in descending order.
+func SortReverse[T constraints.Ordered](s []T) {
+	srt := sorter[T]{
 		items: s,
 	}
-	sort.Sort(rsrt)
+	sort.Sort(sort.Reverse(srt))
 }
 
 // Unique removes duplicate items in s, keeping only the first instance of
@@ -179,11 +179,3 @@ type sorter[T constraints.Ordered] struct {
 func (s sorter[T]) Len() int           { return len(s.items) }
 func (s sorter[T]) Less(i, j int) bool { return s.items[i] < s.items[j] }
 func (s sorter[T]) Swap(i, j int)      { s.items[i], s.items[j] = s.items[j], s.items[i] }
-
-type rsorter[T constraints.Ordered] struct {
-	items []T
-}
-
-func (s rsorter[T]) Len() int           { return len(s.items) }
-func (s rsorter[T]) Less(i, j int) bool { return s.items[j] < s.items[i] }
-func (s rsorter[T]) Swap(i, j int)      { s.items[i], s.items[j] = s.items[j], s.items[i] }

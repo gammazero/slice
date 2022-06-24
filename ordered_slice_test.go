@@ -37,14 +37,14 @@ func TestIndex(t *testing.T) {
 	if Index(s, "the") != 0 {
 		t.Fatal("wrong value from Index")
 	}
-	if RIndex(s, "the") != 6 {
-		t.Fatal("wrong value from RIndex")
+	if LastIndex(s, "the") != 6 {
+		t.Fatal("wrong value from LastIndex")
 	}
 	if Index(s, "xyz") != -1 {
 		t.Fatal("wrong value from Index")
 	}
-	if RIndex(s, "xyz") != -1 {
-		t.Fatal("wrong value from RIndex")
+	if LastIndex(s, "xyz") != -1 {
+		t.Fatal("wrong value from LastIndex")
 	}
 }
 
@@ -112,14 +112,14 @@ func TestReplace(t *testing.T) {
 	}
 
 	Replace(s, "my", "a", 1)
-	RReplace(s, "a", "your", 1)
+	ReplaceLast(s, "a", "your", 1)
 	if !reflect.DeepEqual(s, []string{"a", "quick", "brown", "fox", "jumps", "over", "your", "lazy", "dog"}) {
 		t.Fatal("Did not get expected after, got", s)
 	}
 
 	s = []string{"foo", "bar", "bar", "bar", "baz", "baz", "baz"}
 	Replace(s, "bar", "aaa", 2)
-	RReplace(s, "baz", "zzz", 2)
+	ReplaceLast(s, "baz", "zzz", 2)
 	if !reflect.DeepEqual(s, []string{"foo", "aaa", "aaa", "bar", "baz", "zzz", "zzz"}) {
 		t.Fatal("Did not get expected result, got", s)
 	}
@@ -131,7 +131,7 @@ func TestSort(t *testing.T) {
 	if !reflect.DeepEqual(s, []int{1, 2, 3, 4, 5, 6, 7}) {
 		t.Fatal("Not sorted in ascending order:", s)
 	}
-	RSort(s)
+	SortReverse(s)
 	if !reflect.DeepEqual(s, []int{7, 6, 5, 4, 3, 2, 1}) {
 		t.Fatal("Not sorted in descending  order:", s)
 	}
